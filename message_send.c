@@ -12,13 +12,14 @@
  */
 
 typedef struct msgbuf {
-    long mtype;
+    long mtype;     // The message type, represented in a positive number. This must be a positive number!
     char mtext[MSGSZ];
 } message_buf;
 
 int main()
 {
     int msqid;
+//#define IPC_CREAT  00001000   /*  create if key is nonexistent */
     int msgflg = IPC_CREAT | 0666;
     key_t key;
     message_buf sbuf;
@@ -31,8 +32,7 @@ int main()
      */
     key = 1234;
 
-    (void)fprintf(stderr, "\nmsgget: Calling msgget(%#x,\
-%#o)\n", key, msgflg);
+    (void)fprintf(stderr, "\nmsgget: Calling msgget(%#x,%#o)\n", key, msgflg);
    //    IPC_CREAT | 0666 for a server (i.e., creating and granting read and write access to the server)
    //    0666 for any client (i.e., granting read and write access to the client)
     if ((msqid = msgget(key, msgflg)) < 0) {

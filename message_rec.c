@@ -11,7 +11,7 @@
  */
 
 typedef struct msgbuf {
-    long mtype;
+    long mtype;     // The message type, represented in a positive number. This must be a positive number! 
     char mtext[MSGSZ];
 } message_buf;
 
@@ -35,9 +35,10 @@ int main()
     }
 
     /*
-     * Receive an answer of message type 1.
+     * Receive an answer of message type 1. Keep pace with message_send.c
      */
-//msgflg - 0: 阻塞式接收消息，没有该类型的消息msgrcv函数一直阻塞等待
+//4th arg: msgtyp >0：接收类型等于msgtyp的第一个消息
+//5th arg: msgflg - 0: 阻塞式接收消息，没有该类型的消息msgrcv函数一直阻塞等待
     if (msgrcv(msqid, &rbuf, MSGSZ, 1, 0) < 0) {
         perror("msgrcv");
         exit(1);
