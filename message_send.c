@@ -31,9 +31,10 @@ int main()
      */
     key = 1234;
 
-    (void)fprintf(stderr, "\nmsgget: Calling msgget(%#lx,\
+    (void)fprintf(stderr, "\nmsgget: Calling msgget(%#x,\
 %#o)\n", key, msgflg);
-
+   //    IPC_CREAT | 0666 for a server (i.e., creating and granting read and write access to the server)
+   //    0666 for any client (i.e., granting read and write access to the client)
     if ((msqid = msgget(key, msgflg)) < 0) {
         perror("msgget");
         exit(1);
@@ -58,7 +59,7 @@ int main()
      * Send a message.
      */
     if (msgsnd(msqid, &sbuf, buf_length, IPC_NOWAIT) < 0) {
-        printf("%d, %d, %s, %d\n", msqid, sbuf.mtype, sbuf.mtext, buf_length);
+        printf("%d, %ld, %s, %ld\n", msqid, sbuf.mtype, sbuf.mtext, buf_length);
         perror("msgsnd");
         exit(1);
     }
